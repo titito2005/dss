@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <h3 class="form-title">Agregar cultivo</h3>
+    <hr class="divider"></hr>
+    {% include "error_messages.html" %}
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                <label> Nombre </label>
+                </td>
+                <td class="td_form">
+                    {{form.name}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                <label> Descripción </label>
+                </td>
+                <td class="td_form">
+                    {{form.description}}
+                </td>
+            </tr>        
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:crops' %}">Cancelar</a>
+                        <button type="submit" class="add-form-button">Agregar</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

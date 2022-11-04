@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/add_indicator.css' %}">
+    <h3 class="form-title">Agregar indicador agronómico</h3>
+    <hr class="divider"></hr>
+    {% include "error_messages.html" %}
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Nombre </label>
+                </td>
+                <td class="td_form">
+                    {{form.name}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Descripción </label>
+                </td>
+                <td class="td_form">
+                    {{form.description}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                <label> Unidad de medida </label>
+                </td>
+                <td class="td_form">
+                    {{form.unit_of_measurement}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Variables físicas </label>
+                </td>
+                <td class="td_form">
+                    <button class="drop-button" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Seleccione las variables físicas v
+                    </button>
+                    <div class="dropdown-menu">
+                        {% for type in completeVariableTypes%}
+                          <h6 class="dropdown-header">{{type}}</h6>
+                              {% load multifor %}
+                              {% for completeVar in completeVariables; var in form.variables %}
+                                {% if completeVar.type == type %}
+                                  <a class="dropdown-item"> {{var}}</a>
+                                {% endif %}
+                              {% endfor %}
+                        {% endfor%}
+                    </div>
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:indicator' %}">Cancelar</a>
+                        <button type="submit" class="add-form-button">Agregar</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

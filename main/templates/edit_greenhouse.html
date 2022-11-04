@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <h3 class="form-title">Formulario editar invernadero</h3>
+    <hr class="divider"></hr>
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> ID </label>
+                </td>
+                <td class="td_form">
+                    {{ form.greenhouse_id }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Ubicación </label>
+                </td>
+                <td class="td_form">
+                    {{ form.location }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Propietario </label>
+                </td>
+                <td class="td_form">
+                    {{ form.owner }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Cultivo </label>
+                </td>
+                <td class="td_form">
+                    {{ form.crop }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Fecha de inicio </label>
+                </td>
+                <td class="td_form">
+                    {{ form.start_date }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:greenhouses'%}">Cancelar</a>
+                        <button type="submit" class="add-form-button"> Confirmar </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

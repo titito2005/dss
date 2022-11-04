@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+  {% load static %} 
+  {% include "error_messages.html" %}
+  <img
+    class="d-block w-100"
+    src="{% static 'main/img/front-image#1.png' %}"
+    alt="Front-image"
+  />
+  <div class="card">
+    <div class="card-body">
+      <p>
+        La plataforma de fertirrigación de la Universidad de Costa Rica busca
+        convertirse en una opción viable y asequible para los pequeños y medianos
+        productores nacionales. A través de esta plataforma los agricultores e
+        investigadores podrán monitorear y controlar sus cultivos haciendo uso de
+        tecnologías del Internet de las Cosas (IoT) y redes de comunicación de
+        última generación.
+      </p>
+      <img
+        class="hands-image"
+        src="{% static 'main/img/hands.png' %}"
+        alt="hands image"
+      />
+    </div>
+  </div>
+{% endblock content %}

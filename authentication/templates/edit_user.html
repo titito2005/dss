@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <h3 class="form-title">Formulario editar usuario</h3>
+    <hr class="divider"></hr>
+    {% include "authentication_errors.html" %} 
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> ID </label>
+                </td>
+                <td class="td_form">
+                    {{ form.user_id }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Nombre </label>
+                </td>
+                <td class="td_form">
+                    {{ form.first_name }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Apellidos </label>
+                </td>
+                <td class="td_form">
+                    {{ form.last_name }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Correo electrónico </label>
+                </td>
+                <td class="td_form">
+                    {{ form.email }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Rol de usuario </label>
+                </td>
+                <td class="td_form">
+                    {{ form.user_role }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Condicion de usuario </label>
+                </td>
+                <td class="td_form">
+                    {{ form.user_condition }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'authentication:admin'%}">Cancelar</a>
+                        <button type="submit" class="add-form-button"> Confirmar </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

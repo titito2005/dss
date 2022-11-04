@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/paginator.css' %}" />
+    <link rel="stylesheet" href="{% static 'main/css/monitorings.css' %}">
+    <h3 class="form-title">Estaciones de monitorización</h3>
+    <hr class="divider"></hr>
+    {% include "error_messages.html" %}
+    <a style="text-decoration:none; color: inherit;" class="admin-button" href="{% url 'main:add_monitoring'%}">Agregar estación de monitorización</a>
+    <div style="margin: 2%;">
+        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+            <thead>
+                <th>Invernadero</th>
+                <th>Tipo</th>
+                <th>Sensores</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                {% for monitoring in monitoring_page %}
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal{{monitoring.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Borrar estación de monitorización</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>¿Está seguro que desea eliminar esta estación de monitorización?</h4>
+                                    <p>Esta operación no tiene vuelta atrás</p>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <a type="button" data-dismiss="modal" class="admin-button">Cancelar</a>
+                                    <a id ='delete-button' href='/delete_monitoring/{{monitoring.id}}' type="submit" class="admin-button-danger">Borrar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <tr>
+                        <td>
+                            {{monitoring.greenhouse}}
+                        </td>
+                        <td>
+                            {{monitoring.type}}
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle button-transparent " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                    Mostrar sensores
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-table" aria-labelledby="dropdownMenuButton">
+                                    {% for sensor in  monitoring.sensors.all %}
+                                    <li class="dropdown-item"> {{sensor.name}} </li>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="d-flex justify-content-center">
+                                <a class='ml-1 mr-1' href="/edit_monitoring/{{monitoring.id}}">
+                                    <img class="icon-img" src="{% static 'main/img/editar.png' %}" alt="Editar">        
+                                    </img>
+                                    <p class="m-0">Editar</p>
+                                </a>
+                                <button id='{{monitoring.id}}' class='button_transparent ml-1 mr-1' data-toggle="modal" data-target="#modal{{monitoring.id}}">
+                                    <img class="icon-img" src="{% static 'main/img/trash.png' %}" alt="Borrar">        
+                                    </img>
+                                    <p class="m-0">Borrar</p>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

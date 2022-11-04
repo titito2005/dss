@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3 class="form-title">Formulario de autenticación</h3>
+    <hr class="divider"></hr>
+    {% include "authentication_errors.html" %}
+    <form autocomplete="off" method="POST" class="form-style">
+        {% csrf_token %}
+        <div class='input-form'>
+            <div class='input-element'>
+                <label> Correo electrónico </label> {{ form.username }}
+            </div>
+            <div class='input-element'>
+                <label> Contraseña </label> {{ form.password }}
+            </div>
+        </div>
+        <button class="form-button" type="submit">Ingresar</button>
+    </form>
+
+    <div class="login-links">
+        <a class="link-style" href="{% url 'authentication:reset_password'%}"> ¿Olvidó su contraseña?</a>
+    </div>
+{% endblock content %}

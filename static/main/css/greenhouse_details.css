@@ -1,0 +1,71 @@
+.no-hover{
+    pointer-events: none;
+}
+.no-hover::before{
+    content: " ";
+    margin-right: 30px;
+}
+
+.details-header{
+    background-color: #228F32;
+    color: white;
+    width: 40%;
+    text-align: left;
+}
+.plus-minus-toggle::before{
+    content: "+";
+    font-size: large;
+    font-weight: bold;
+    margin-right: 20px;
+
+}
+
+.plus-minus-toggle:not(.collapsed)::before{
+    content: "−";
+    font-weight: bold;
+    margin-right: 20px;
+
+}
+
+.btn:hover{
+    color:white;
+    background-color: #259c37;
+}
+
+#status-box{
+    background-color: #259c37;
+    color: white;
+    text-align: center;
+    display: inline;
+    padding: 5px 10px 5px 10px;
+}
+.button {
+    text-decoration: none;
+    text-align: center;
+    padding: 5px 10px 5px 10px;
+    margin-right: 1%;
+}
+.button:hover{
+    text-decoration: none;
+}
+
+.dark-grey{
+    background-color: #404040;
+    color: white;
+}
+
+.yellow{
+    background-color: #E8DB15;
+    color: black;
+}
+
+.dark-grey:hover{
+    background-color: #4d4d4d;
+    color: white;
+}
+
+.yellow:hover{
+    background-color: #f5e617;
+    color: black;
+}
+

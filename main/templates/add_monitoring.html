@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <h3 class="form-title">Agregar estación de monitorización</h3>
+    <hr class="divider"></hr>
+    {% include "error_messages.html" %}
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                <label> Invernadero asociado </label>
+                </td>
+                <td class="td_form">
+                    {{form.greenhouse}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Tipo de estación </label>
+                </td>
+                <td class="td_form">
+                    {{form.type}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Sensores </label>
+                </td>
+                <td class="td_form col-div" id ="sensors-checkboxes-container">
+                    <p id="checkbox-tittle" class="form_label"> Seleccione los sensores con que cuenta la estación de monitorización</p>
+                    <button class="drop-button" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Seleccione los sensores v
+                    </button>
+                    <div class="dropdown-menu">
+                        {% for type in completeVariableTypes%}
+                          <h6 class="dropdown-header">{{type}}</h6>
+                              {% load multifor %}
+                              {% for completeVar in completeVariables; var in form.variables %}
+                                {% if completeVar.type == type %}
+                                  <a class="dropdown-item"> {{var}}</a>
+                                {% endif %}
+                              {% endfor %}
+                        {% endfor%}
+                    </div>
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:monitorings' %}">Cancelar</a>
+                        <button type="submit" class="add-form-button">Agregar</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

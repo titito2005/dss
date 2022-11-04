@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <h3 class="form-title">Formulario editar variable física</h3>
+    <hr class="divider"></hr>
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> ID </label>
+                </td>
+                <td class="td_form">
+                    {{ form.physical_id }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Nombre </label>
+                </td>
+                <td class="td_form">
+                    {{ form.name }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Descripción </label>
+                </td>
+                <td class="td_form">
+                    {{ form.description }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Unidad de medida </label>
+                </td>
+                <td class="td_form">
+                    {{ form.unit_of_measurement }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Tipo </label>
+                </td>
+                <td class="td_form">
+                    {{ form.type }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:phys_var'%}">Cancelar</a>
+                        <button type="submit" class="add-form-button"> Confirmar </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

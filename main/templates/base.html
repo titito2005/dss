@@ -1,0 +1,175 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Montserrat font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link rel="stylesheet" href="{% static 'main/css/base.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap4.min.css">
+  </head>
+  <body>
+    <header class="site-header">
+
+      <div class="header-logos">
+        <img src=" {% static 'main/img/logo-fertirriego.png' %}" class="rounded float-left" alt="Logo Fertirriego" id="logo-fertirriego" onclick="location.href = '/'"/>
+        <img src=" {% static 'main/img/logo-ucr.png' %}" alt="Logo UCR"/>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #228F32;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active pr-4 pl-4">
+                <a class="nav-link" href="{% url 'main:home' %}">Inicio<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active pr-4 pl-4">
+                    <a class="nav-link" href="#">Proyectos<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active pr-4 pl-4">
+                  <a class="nav-link" href="{% url 'main:monitoring' %}">Monitorización<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active pr-4 pl-4">
+                  <a class="nav-link" href="#">Control Automático<span class="sr-only">(current)</span></a>
+                </li>
+
+                {% if user.is_authenticated and user.is_active %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Invernaderos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="dropdown-item" href="{% url 'main:monitorings' %}">Estación de Monitorización</a>
+                      <a class="dropdown-item" href="{% url 'main:greenhouses' %}">Invernaderos</a>
+                    </div>
+                  </li>
+                {% endif%}
+
+                {% if user.is_authenticated and user.is_active and user.user_role.role.id == 1 %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Configuración
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'main:phys_var' %}">Variable Física</a>
+                    <a class="dropdown-item" href="{% url 'main:indicator' %}">Indicador Agronómico</a>
+                    <a class="dropdown-item" href="{% url 'main:crops' %}">Cultivos</a>
+                    <a class="dropdown-item" href="{% url 'main:limits' %}">Límites</a>
+                  </div>
+                </li>
+                <li class="nav-item active pr-4 pl-4">
+                  <a class="nav-link" href="{% url 'authentication:admin' %}">Manejo de usuarios<span class="sr-only">(current)</span></a>
+                </li>
+              {% endif%}
+            </ul>
+        </div>
+        <!-- Navbar Right Side -->
+        <div class="navbar-nav ">
+            {% if user.is_authenticated %}
+                <!-- <a class="nav-item nav-link" href="{% url 'authentication:profile' %}">Perfil</a> -->
+                <a class="nav-item nav-link active text-white" href="{% url 'authentication:logout' %}">Cerrar sesión</a>
+            {% else %}
+                <a class="nav-item nav-link active text-white" href="{% url 'authentication:login' %}">Ingresar</a>
+                <!-- <a class="nav-item nav-link" href="{% url 'authentication:register' %}">Registrarse</a> -->
+            {% endif %}
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="main-container">
+          {% block content %}
+          {% endblock %}
+    </main>
+  </body>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  {% block javascript %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#example').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+        }
+    });
+    } );
+  </script>
+  {% endblock %}
+  <!-- Footer -->
+  <footer class="text-lg-start bg-white ">
+    <!-- Section: Links  -->
+    <section>
+      <div class="container text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3 pb-3">
+          <!-- Grid column -->
+          <div class="col-md-6 col-lg-6 col-xl-6  mb-6  pr-4">
+            <!-- Content -->
+            <h5 class="mb-4"> Unidades Participantes </h6>
+            <p>
+              Centro de Investigaciones en Tecnologías de la Información y la Comunicación (CITIC)
+            </p>
+            <p>
+              Laboratorio de Observación del Sistema Climático (LOSIC)
+            </p>
+            <p>
+              Estación Experimental Agrícola Fabio Baudrit Moreno (EEAFBM)
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-6 col-lg-6 col-xl-6  mb-6 pl-5 prueba ">
+            <!-- Links -->
+            <h5 class=" mb-4">Sitios Relacionados</h6>
+            <p>
+              <a href="#!" class="text-reset">Universidad de Costa Rica</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Ministerio de Agricultura y Ganadería</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+
+        </div>
+        <!-- Grid row -->
+      </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div class="footer-bar pt-3 pl-4" >
+      <p class>Derechos Reservados © 2021</p>
+      <div>
+        <p class="pr-3 pl-3  ">
+          <a phref="#!" class="text-reset ">Mapa del Sitio</a>
+        </p>
+        <p class="pr-3 pl-3 ">
+          <a phref="#!" class="text-reset">Contratos de Uso</a>
+        </p>
+        <p class="pr-3 pl-3 ">
+          <a phref="#!" class="text-reset">Política de Privacidad</a>
+        </p>
+      </div>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+</html>

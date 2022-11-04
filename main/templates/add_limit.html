@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/add_indicator.css' %}">
+    <h3 class="form-title">Agregar límite</h3>
+    <hr class="divider"></hr>
+    {% include "error_messages.html" %}
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Cultivo </label>
+                </td>
+                <td class="td_form">
+                    {{form.crop}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Variable física </label>
+                </td>
+                <td class="td_form">
+                    {{form.phys_vars}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                <label> Valor máximo </label>
+                </td>
+                <td class="td_form">
+                    {{form.max_limit}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                <label> Valor mínimo </label>
+                </td>
+                <td class="td_form">
+                    {{form.min_limit}}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:limits' %}">Cancelar</a>
+                        <button type="submit" class="add-form-button">Agregar</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

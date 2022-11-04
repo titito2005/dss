@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/greenhouse_details.css' %}">
+    <h3 class="form-title">Detalles de Invernadero</h3>
+    <hr class="divider"></hr>
+    {% include "error_messages.html" %}
+    <div class="row">
+        <div class = "col-2">
+            <p>Estado</p>
+        </div>
+        <div class = "col-10">
+            <p id="status-box">OK</p>
+        </div>
+        <div class =></div>
+    </div>
+
+    <div class="row">
+        <div class = "col-2">
+            <p>Acciones</p>
+        </div>
+        <div class = "col-10">
+            <a class="button yellow" href="#">En tiempo real</a>
+            <a class="button dark-grey" href="#">Establecer rango de fechas/horas</a>
+        </div>
+        <div class =></div>
+    </div>
+
+    <p class="btn details-header no-hover">Información general</p>
+    <div class="card" style="width: 55%;">
+        <div class="p-2">
+            <div class="row">
+                <div class="col">
+                    <p>Ubicación:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.location}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Propietario:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.owner}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Cultivo:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.crop}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Fecha de inicio:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.start_date}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Tiempo transcurrido aproximado:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.get_days_elapsed}} días</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p><button class="btn details-header plus-minus-toggle collapsed mt-3" data-toggle="collapse" href="#monitoring-collapse" role="button" aria-expanded="false" aria-controls="monitoring-collapse">Variables físicas</button></p>
+    <div class="collapse" id = "monitoring-collapse">
+        <div class="d-flex flex-wrap">
+            {% for sensor in allSensors %}
+            <div class="card" style="width: 850px; margin-right: 3%; margin-bottom: 2%;">
+                <div id = "sensorChart{{sensor.id}}" style="width: 100%; height: 400px; padding: 2%;"></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <p><button class="btn details-header plus-minus-toggle collapsed mt-3" data-toggle="collapse" href="#control-collapse" role="button" aria-expanded="false" aria-controls="control-collapse">Indicadores agronómicos</button></p>
+    <div class="collapse" id = "control-collapse">
+        <div class="d-flex flex-wrap">
+            {% for indicator in allIndicators %}
+            <div class="card" style="width: 850px; margin-right: 3%; margin-bottom: 2%;">
+                <div id = "indicatorChart{{indicator.id}}" style="width: 100%; height: 400px; padding: 2%;"></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+    let sensorChart = [];
+    let indicatorChart = [];
+    let sensorCount = 0;
+    let indicatorCount = 0;
+    window.addEventListener('load', function () {
+        {% for sensor in allSensors %}
+        sensorChart[sensorCount] = new Highcharts.Chart({
+                chart: {
+                renderTo: 'sensorChart{{sensor.id}}',
+                defaultSeriesType: 'spline',
+                zoomType: 'x',
+                },
+                title: {
+                text: '{{sensor.name}}'
+                },
+                xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+                },
+                yAxis: {
+                min: 0,
+                max: null,
+                plotLines: [{
+                    color: 'red',
+                    dashStyle: 'longdashdot',
+                    value: '{{sensor.limit.max_limit}}',
+                    width: 1,
+                    visible: true,
+                    zIndex: 5,
+                    label:{
+                        text: 'Max', 
+                        align: 'left',
+                        style: {
+                            color: 'red'
+                        }
+                    }
+                },
+                {
+                    color: 'red',
+                    dashStyle: 'longdashdot',
+                    value: '{{sensor.limit.min_limit}}',
+                    width: 1,
+                    visible: true,
+                    zIndex: 5,
+                    label:{
+                        text: 'Min',
+                        align: 'left',
+                        style: {
+                            color: 'red'
+                        }
+                    }
+                },
+                ],
+                title: {
+                    text: '{{sensor.unit_of_measurement}}',
+                    margin: 10
+                }
+                },
+                series: [{
+                name: '{{sensor.unit_of_measurement}}',
+                data: []
+                },
+                ],
+                time: {
+                    useUTC: false
+                },
+            });
+            sensorCount++;
+        {% endfor %}
+
+        {% for indicator in allIndicators %}
+            indicatorChart[indicatorCount] = new Highcharts.Chart({
+                chart: {
+                renderTo: 'indicatorChart{{indicator.id}}',
+                defaultSeriesType: 'spline',
+                zoomType: 'x',
+                },
+                title: {
+                text: '{{indicator.name}}'
+                },
+                xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+                },
+                yAxis: {
+                min: 0,
+                max: null,
+                title: {
+                    text: '{{indicator.unit_of_measurement}}',
+                    margin: 10
+                }
+                },
+                series: [{
+                name: '{{indicator.unit_of_measurement}}',
+                data: []
+                },
+                ],
+                time: {
+                    useUTC: false
+                },
+            });
+            indicatorCount++;
+        {% endfor %}
+    });
+
+
+    async function requestData() {
+        const result = await fetch('http://127.0.0.1:8000/data/{{greenhouse.id}}');
+        if (result.ok) {
+            const data = await result.json();
+            for (let i = 0; i < sensorCount; i++) {
+                const point = [new Date().getTime(), data[sensorChart[i].renderTo.id]];
+                const series = sensorChart[i].series[0];
+                shift = series.data.length > 20; // shift if the series is longer than 20
+                sensorChart[i].series[0].addPoint(point, true, shift);
+            }
+
+            for (let i = 0; i < indicatorCount; i++) {
+                const point = [new Date().getTime(), data[indicatorChart[i].renderTo.id]];
+                const series = indicatorChart[i].series[0];
+                shift = series.data.length > 20; // shift if the series is longer than 20
+                indicatorChart[i].series[0].addPoint(point, true, shift);
+            }
+        }
+        setTimeout(requestData, 5000);
+    }
+
+    $(document).ready(function(){
+        requestData();
+    });
+ </script>
+{% endblock %}

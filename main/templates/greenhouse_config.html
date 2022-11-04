@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/paginator.css' %}" />
+    <h3 class="form-title">Formulario editar datos de conexión del invernadero</h3>
+    <hr class="divider"></hr>
+    <h5 class="form-title">Información general</h5>
+    <div class="card" style="width: 55%;">
+        <div class="p-2">
+            <div class="row">
+                <div class="col">
+                    <p>Ubicación:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.location}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Propietario:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.owner}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Cultivo:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.crop}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Fecha de inicio:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.start_date}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Tiempo transcurrido aproximado:</p>
+                </div>
+                <div class="col">
+                    <p>{{greenhouse.get_days_elapsed}} días</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Invernadero </label>
+                </td>
+                <td class="td_form">
+                    {{ form.greenhouse }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Url </label>
+                </td>
+                <td class="td_form">
+                    {{ form.url }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Ip </label>
+                </td>
+                <td class="td_form">
+                    {{ form.ip }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Nombre de la base de datos </label>
+                </td>
+                <td class="td_form">
+                    {{ form.database_name }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Nombre de la tabla </label>
+                </td>
+                <td class="td_form">
+                    {{ form.table_name }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Nombre de usuario </label>
+                </td>
+                <td class="td_form">
+                    {{ form.user }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Contraseña </label>
+                </td>
+                <td class="td_form">
+                    {{ form.password }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:greenhouses'%}">Cancelar</a>
+                        <button type="submit" class="add-form-button"> Confirmar </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}

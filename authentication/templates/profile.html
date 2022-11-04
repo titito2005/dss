@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3 class="form-title">Perfil de usuario</h3>
+    <hr class="divider"></hr>
+    <h2>{{ user.username }}</h2>
+    <p >{{ user.first_name }} {{user.last_name}}</p>
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/paginator.css' %}" />
+    <link rel="stylesheet" href="{% static 'main/css/agronomic_indicator.css' %}">
+    <h3 class="form-title">Formulario editar estación de monitorización</h3>
+    <hr class="divider"></hr>
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
+        <table class="table_form">
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> ID </label>
+                </td>
+                <td class="td_form">
+                    {{ form.monitoring_id }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Invernadero asociado </label>
+                </td>
+                <td class="td_form">
+                    {{ form.greenhouse }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Tipo de estación </label>
+                </td>
+                <td class="td_form">
+                    {{ form.type }}
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                    <label> Sensores </label>
+                </td>
+                <td class="td_form col-div" id ="sensors-checkboxes-container">
+                    <p id="checkbox-tittle" class="form_label"> Seleccione los sensores con que cuenta la estación de monitorización</p>
+                    <button class="drop-button" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Seleccione los sensores v
+                    </button>
+                    <div class="dropdown-menu">
+                        {% for var in form.variables %}
+                            <a class="dropdown-item"> {{var}} </a>
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+            <tr class="tr_form">
+                <td class="td_title">
+                </td>
+                <td class="td_form">
+                    <div class="row-div">
+                        <a type="button" class="cancel-form-button" href="{% url 'main:monitorings'%}">Cancelar</a>
+                        <button type="submit" class="add-form-button"> Confirmar </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}
